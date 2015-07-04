@@ -20,5 +20,12 @@ ENV PATH /user/local/breseq-0.26.0-Linux-x86_64/bin:$PATH
 
 # Cleanup
 RUN rm -rf breseq-0.26.0-Linux-x86_64.tar.gz
-WORKDIR /
 RUN apt-get clean
+
+# Create an app user
+ENV HOME /home/user
+RUN useradd --create-home --home-dir $HOME user \
+    && chown -R user:user $HOME
+
+WORKDIR $HOME
+USER user
